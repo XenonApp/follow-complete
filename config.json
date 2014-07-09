@@ -56,6 +56,48 @@
                 complete: ["Tools:Follow:Complete"],
                 index: ["Tools:Follow:Index"]
             }
+        },
+        java: {
+            handlers: {
+                complete: ["Tools:Follow:Complete"],
+                index: ["Tools:Follow:Index"]
+            }
+        },
+        csharp: {
+            handlers: {
+                complete: ["Tools:Follow:Complete"],
+                index: ["Tools:Follow:Index"]
+            }
+        },
+        groovy: {
+            handlers: {
+                complete: ["Tools:Follow:Complete"],
+                index: ["Tools:Follow:Index"]
+            }
+        },
+        lua: {
+            handlers: {
+                complete: ["Tools:Follow:Complete"],
+                index: ["Tools:Follow:Index"]
+            }
+        },
+        nix: {
+            handlers: {
+                complete: ["Tools:Follow:Complete"],
+                index: ["Tools:Follow:Index"]
+            }
+        },
+        rust: {
+            handlers: {
+                complete: ["Tools:Follow:Complete"],
+                index: ["Tools:Follow:Index"]
+            }
+        },
+        scala: {
+            handlers: {
+                complete: ["Tools:Follow:Complete"],
+                index: ["Tools:Follow:Index"]
+            }
         }
     }
 }

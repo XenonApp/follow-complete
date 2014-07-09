@@ -17,13 +17,11 @@ module.exports = function(info) {
     if (text[i] === ".") {
         i--;
         prev = getBackIdentifier();
-        console.log("Results:", i, prev, prefix);
         if (prev) {
             return db.queryIndex("follow", "pred_idn", [">=", [modeName, prev, 0, prefix], "<=", [modeName, prev, HIGH_NUMBER, prefix + "~"], {
                 limit: 200
             }]).then(function(candidates) {
                 var totalScores = {};
-                console.log("Result count:", candidates.length);
                 candidates.forEach(function(candidate) {
                     if (!totalScores[candidate.follow]) {
                         totalScores[candidate.follow] = 0;
@@ -51,7 +49,6 @@ module.exports = function(info) {
                         };
                     }
                 });
-                // console.log("Results", results);
                 return results;
             });
         }

@@ -1,6 +1,6 @@
 {
     "name": "Follow completer",
-    "uri": "gh:zefhemel/follow-complete",
+    "uri": "gh:zedapp/follow-complete",
     "version": "0.1",
     "description": "Interesting type of code completion",
     "files": [
