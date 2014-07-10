@@ -9,20 +9,20 @@ module.exports = function(info) {
     var path = info.path;
     var text = info.inputs.text;
     var modeName = info.inputs.modeName;
-    var triggerCh = info.trigger || '.';
+    var separators = info.separators || ['.'];
 
     var i = 0;
 
     var results = {};
     var total = 0;
 
+    console.log("Indexing", path);
+
     try {
         index();
     } catch (e) {
         console.error("Error", e.message);
     }
-
-    // console.log("Results", results);
 
     var items = _.map(results, function(count, key) {
         var parts = key.split("~");
@@ -31,8 +31,9 @@ module.exports = function(info) {
             path: path,
             count: count,
             rank: HIGH_NUMBER - count, // used for sorting in index
-            prev: parts[0],
-            follow: parts[1],
+            prev: parts[1],
+            follow: parts[2],
+            sep: parts[0],
             mode: modeName
         };
     });
@@ -42,6 +43,7 @@ module.exports = function(info) {
         return db.deleteMany("follow", _.pluck(existingObjs, "id"));
     }).then(function() {
         // Then save new ones
+        // console.log("Indexed", items);
         return db.putMany("follow", items);
     }).
     catch (function(err) {
@@ -52,13 +54,13 @@ module.exports = function(info) {
         var prevIdn = '';
         while (i < text.length) {
             var ch = text[i];
+            var sep = findSep();
             if (ID_REGEX.exec(ch)) {
                 prevIdn += ch;
-            } else if (ch === triggerCh && prevIdn) {
-                i++;
+            } else if (sep && prevIdn) {
                 var followIdn = findForwardIdn();
                 if (followIdn) {
-                    var id = prevIdn + "~" + followIdn;
+                    var id = sep + "~" + prevIdn + "~" + followIdn;
                     if (!results[id]) {
                         results[id] = 0;
                     }
@@ -82,6 +84,23 @@ module.exports = function(info) {
         }
     }
 
+    function findSep() {
+        for(var j = 0; j < separators.length; j++) {
+            var sep = separators[j];
+            var match = true;
+            for_label: for(var k = 0; k < sep.length; k++) {
+                if(sep[k] !== text[i + k]) {
+                    match = false;
+                    break for_label;
+                }
+            }
+            if(match) {
+                i += sep.length;
+                return sep;
+            }
+        }
+        return false;
+    }
     function findForwardIdn() {
         var idn = '';
         while (i < text.length) {

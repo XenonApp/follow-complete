@@ -4,9 +4,10 @@
             keyPath: "id",
             indexes: {
                 pred_idn: {
-                    keyPath: ["mode", "prev", "rank", "follow"]
+                    keyPath: ["mode", "sep", "prev", "rank", "follow"]
                 }
-            }
+            },
+            // bla: false
         }
     },
     commands: {
@@ -97,6 +98,33 @@
             handlers: {
                 complete: ["Tools:Follow:Complete"],
                 index: ["Tools:Follow:Index"]
+            }
+        },
+        php: {
+            commands: {
+                "Tools:Follow:Index:PHP": {
+                    scriptUrl: "./index.js",
+                    inputs: {
+                        text: true,
+                        modeName: true
+                    },
+                    separators: ["->", "::", "\\"],
+                    internal: true
+                },
+                "Tools:Follow:Complete:PHP": {
+                    scriptUrl: "./complete.js",
+                    inputs: {
+                        text: true,
+                        cursorIndex: true,
+                        modeName: true
+                    },
+                    separators: ["->", "::", "\\"],
+                    internal: true
+                },
+            },
+            handlers: {
+                index: ["Tools:Follow:Index:PHP"],
+                complete: ["Tools:Follow:Complete:PHP"]
             }
         }
     }

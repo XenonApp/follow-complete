@@ -8,17 +8,22 @@ module.exports = function(info) {
     var i = info.inputs.cursorIndex - 1;
     var text = info.inputs.text;
     var modeName = info.inputs.modeName;
+    var separators = info.separators || ['.'];
 
     var prefix = "";
     var prev;
-    if (text[i] !== ".") {
+    var sep = findSep();
+    console.log("Sep immediately", sep);
+    if (!sep) {
         prefix = getBackIdentifier();
     }
-    if (text[i] === ".") {
-        i--;
+    sep = findSep();
+    console.log("Sep", sep);
+    if (sep) {
+        i -= sep.length;
         prev = getBackIdentifier();
         if (prev) {
-            return db.queryIndex("follow", "pred_idn", [">=", [modeName, prev, 0, prefix], "<=", [modeName, prev, HIGH_NUMBER, prefix + "~"], {
+            return db.queryIndex("follow", "pred_idn", [">=", [modeName, sep, prev, 0, prefix], "<=", [modeName, sep, prev, HIGH_NUMBER, prefix + "~"], {
                 limit: 200
             }]).then(function(candidates) {
                 var totalScores = {};
@@ -71,6 +76,25 @@ module.exports = function(info) {
             }
         }
         return characters.reverse().join('');
+    }
+
+    function findSep() {
+        for(var j = 0; j < separators.length; j++) {
+            var sep = separators[j];
+            var match = true;
+            console.log("Checking for", sep);
+            for_label: for(var k = sep.length-1; k >= 0; k--) {
+                console.log("Compare", sep[k], text[i - ((sep.length - 1) - k)]);
+                if(sep[k] !== text[i - ((sep.length - 1) - k)]) {
+                    match = false;
+                    break for_label;
+                }
+            }
+            if(match) {
+                return sep;
+            }
+        }
+        return false;
     }
 
     function handleBrace() {
