@@ -28,7 +28,7 @@
             }
         }
     },
-    handlers: {
+    modes: {
         javascript: {
             handlers: {
                 complete: ["Tools:Follow:Complete"],
@@ -42,6 +42,12 @@
             }
         },
         ruby: {
+            handlers: {
+                complete: ["Tools:Follow:Complete"],
+                index: ["Tools:Follow:Index"]
+            }
+        },
+        c: {
             handlers: {
                 complete: ["Tools:Follow:Complete"],
                 index: ["Tools:Follow:Index"]
