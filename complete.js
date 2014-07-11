@@ -8,17 +8,22 @@ module.exports = function(info) {
     var i = info.inputs.cursorIndex - 1;
     var text = info.inputs.text;
     var modeName = info.inputs.modeName;
-    var separators = info.separators || ['.'];
+    if(!info.inputs.mode) {
+        return;
+    }
+    var separators = info.inputs.mode.completionTriggers;
+
+    if(!separators) {
+        return [];
+    }
 
     var prefix = "";
     var prev;
     var sep = findSep();
-    console.log("Sep immediately", sep);
     if (!sep) {
         prefix = getBackIdentifier();
     }
     sep = findSep();
-    console.log("Sep", sep);
     if (sep) {
         i -= sep.length;
         prev = getBackIdentifier();
@@ -82,9 +87,7 @@ module.exports = function(info) {
         for(var j = 0; j < separators.length; j++) {
             var sep = separators[j];
             var match = true;
-            console.log("Checking for", sep);
             for_label: for(var k = sep.length-1; k >= 0; k--) {
-                console.log("Compare", sep[k], text[i - ((sep.length - 1) - k)]);
                 if(sep[k] !== text[i - ((sep.length - 1) - k)]) {
                     match = false;
                     break for_label;

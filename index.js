@@ -9,7 +9,14 @@ module.exports = function(info) {
     var path = info.path;
     var text = info.inputs.text;
     var modeName = info.inputs.modeName;
-    var separators = info.separators || ['.'];
+    if(!info.inputs.mode) {
+        return;
+    }
+    var separators = info.inputs.mode.completionTriggers;
+
+    if(!separators) {
+        return;
+    }
 
     var i = 0;
 

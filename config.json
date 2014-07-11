@@ -6,8 +6,7 @@
                 pred_idn: {
                     keyPath: ["mode", "sep", "prev", "rank", "follow"]
                 }
-            },
-            // bla: false
+            }
         }
     },
     commands: {
@@ -15,7 +14,8 @@
             scriptUrl: "./index.js",
             inputs: {
                 text: true,
-                modeName: true
+                modeName: true,
+                mode: true
             }
         },
         "Tools:Follow:Complete": {
@@ -23,17 +23,12 @@
             inputs: {
                 text: true,
                 cursorIndex: true,
-                modeName: true
-            }
-        },
-        "Tools:Follow:Trigger Complete": {
-            scriptUrl: "./trigger_complete.js",
-            inputs: {
-                cursor: true
+                modeName: true,
+                mode: true
             }
         }
     },
-    modes: {
+    handlers: {
         javascript: {
             handlers: {
                 complete: ["Tools:Follow:Complete"],
@@ -101,30 +96,15 @@
             }
         },
         php: {
-            commands: {
-                "Tools:Follow:Index:PHP": {
-                    scriptUrl: "./index.js",
-                    inputs: {
-                        text: true,
-                        modeName: true
-                    },
-                    separators: ["->", "::", "\\"],
-                    internal: true
-                },
-                "Tools:Follow:Complete:PHP": {
-                    scriptUrl: "./complete.js",
-                    inputs: {
-                        text: true,
-                        cursorIndex: true,
-                        modeName: true
-                    },
-                    separators: ["->", "::", "\\"],
-                    internal: true
-                },
-            },
             handlers: {
-                index: ["Tools:Follow:Index:PHP"],
-                complete: ["Tools:Follow:Complete:PHP"]
+                complete: ["Tools:Follow:Complete"],
+                index: ["Tools:Follow:Index"]
+            }
+        },
+        clojure: {
+            handlers: {
+                complete: ["Tools:Follow:Complete"],
+                index: ["Tools:Follow:Index"]
             }
         }
     }
