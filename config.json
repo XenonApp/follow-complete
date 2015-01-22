@@ -16,7 +16,8 @@
                 text: true,
                 modeName: true,
                 mode: true
-            }
+            },
+            sandbox: "index"
         },
         "Tools:Follow:Complete": {
             scriptUrl: "./complete.js",
@@ -25,7 +26,8 @@
                 cursorIndex: true,
                 modeName: true,
                 mode: true
-            }
+            },
+            sandbox: "complete"
         }
     },
     modes: {
@@ -72,6 +74,12 @@
             }
         },
         groovy: {
+            handlers: {
+                complete: ["Tools:Follow:Complete"],
+                index: ["Tools:Follow:Index"]
+            }
+        },
+        elixir: {
             handlers: {
                 complete: ["Tools:Follow:Complete"],
                 index: ["Tools:Follow:Index"]
