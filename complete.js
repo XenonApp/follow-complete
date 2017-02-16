@@ -1,5 +1,5 @@
 "use strict";
-var db = require("zed/db");
+var db = xenon.db;
 
 var ID_REGEX = /[A-Za-z0-9_\$]/;
 var HIGH_NUMBER = 1000000;

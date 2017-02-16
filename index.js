@@ -1,6 +1,6 @@
-/* global _*/
 "use strict";
-var db = require("zed/db");
+
+const db = xenon.db;
 
 var ID_REGEX = /[A-Za-z0-9_\$]/;
 var HIGH_NUMBER = 1000000;
@@ -31,9 +31,11 @@ module.exports = function(info) {
         console.error("Error", e.message);
     }
 
-    var items = _.map(results, function(count, key) {
-        var parts = key.split("~");
-        return {
+    var items = [];
+    Object.keys(results).forEach(key => {
+        const count = results[key];
+        const parts = key.split("~");
+        items.push({
             id: path + "~" + key,
             path: path,
             count: count,
@@ -42,12 +44,12 @@ module.exports = function(info) {
             follow: parts[2],
             sep: parts[0],
             mode: modeName
-        };
+        });
     });
 
     return db.query("follow", [">=", path, "<=", path + "~~"]).then(function(existingObjs) {
         // First remove old entries
-        return db.deleteMany("follow", _.pluck(existingObjs, "id"));
+        return db.deleteMany("follow", existingObjs.map(obj => obj.id));
     }).then(function() {
         // Then save new ones
         // console.log("Indexed", items);
