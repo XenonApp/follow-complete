@@ -23,7 +23,7 @@ module.exports = function(info) {
     var results = {};
     var total = 0;
 
-    console.log("Indexing", path);
+    // console.log("Indexing", path);
 
     try {
         index();

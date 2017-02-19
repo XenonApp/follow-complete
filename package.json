@@ -1,7 +1,7 @@
 {
     "name": "Follow completer",
     "uri": "gh:xenonapp/follow-complete",
-    "version": "0.3.1",
+    "version": "0.3.2",
     "description": "Interesting type of code completion",
     "files": [
         "complete.js",
