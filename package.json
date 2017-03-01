@@ -1,6 +1,6 @@
 {
   "name": "xenon-follow-complete",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "General purpose autocomplete tool for Xenon.  Works with many languages.",
   "main": "main.js",
   "scripts": {
